@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package com.nordea.country;
+package com.nordea.country.configserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-/**
- * @author Jianwen Xu
- */
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
-public class CountryApplication {
+@EnableConfigServer
+public class ConfigServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CountryApplication.class, args);
+		SpringApplication.run(ConfigServerApplication.class, args);
 	}
 
 }

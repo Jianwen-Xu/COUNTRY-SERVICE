@@ -63,12 +63,6 @@ public class CountryRestApi {
 		return om.writeValueAsString(Arrays.asList(result));
 	}
 
-	// api for alive test
-	@GetMapping("/ping")
-	public String ping() {
-		return "pong";
-	}
-
 	// filter the return data for different apis
 	private ObjectMapper getFieldFilter(boolean isCountry) {
 		ObjectMapper om = new ObjectMapper();

@@ -13,6 +13,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>country</name>
 	<description>Microservice which provides a list of countries and, in addition, provides more detailed information per country.</description>
+	<modules>
+		<module>country-config-server</module>
+	</modules>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
