@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.nordea.country.model;
+package com.nordea.country.restapi.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFilter;
@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonFilter;
  * @author Jianwen Xu
  */
 @JsonFilter("countryFilter")
-public class CountryRestModel {
+public class CountryModel {
 	private String name;
 	@JsonAlias("alpha2Code")
 	private String country_code;

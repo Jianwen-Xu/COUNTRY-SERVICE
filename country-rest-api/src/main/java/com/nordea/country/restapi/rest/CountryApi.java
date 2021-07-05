@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.nordea.country.rest;
+package com.nordea.country.restapi.rest;
 
 import java.util.Arrays;
 
@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.nordea.country.model.CountryRestModel;
+import com.nordea.country.restapi.model.CountryModel;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,26 +31,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * @author Jianwen Xu
- */
 @RequestMapping("/countries")
 @RestController
-public class CountryRestApi {
-
-	@Value("${country.api.url}")
+public class CountryApi {
+	@Value("${country.api.baseUrl}")
 	private String countryApi;
 
-	@Value("${country.getAll}")
+	@Value("${country.api.getAll}")
 	private String getAll;
 
-	@Value("${country.getByName}")
+	@Value("${country.api.getByName}")
 	private String getByName;
 
 	@GetMapping
 	public String findAll() throws JsonProcessingException {
 		RestTemplate restTemplate = new RestTemplate();
-		CountryRestModel[] result = restTemplate.getForObject(countryApi + getAll, CountryRestModel[].class);
+		CountryModel[] result = restTemplate.getForObject(countryApi + getAll, CountryModel[].class);
 		ObjectMapper om = getFieldFilter(true);
 		return om.writeValueAsString(Arrays.asList(result));
 	}
@@ -58,7 +54,7 @@ public class CountryRestApi {
 	@GetMapping("/{name}")
 	public String findByName(@PathVariable("name") String name) throws JsonProcessingException {
 		RestTemplate restTemplate = new RestTemplate();
-		CountryRestModel[] result = restTemplate.getForObject(countryApi + getByName + name, CountryRestModel[].class);
+		CountryModel[] result = restTemplate.getForObject(countryApi + getByName + name, CountryModel[].class);
 		ObjectMapper om = getFieldFilter(false);
 		return om.writeValueAsString(Arrays.asList(result));
 	}

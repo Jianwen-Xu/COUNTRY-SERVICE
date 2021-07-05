@@ -8,25 +8,35 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.nordea.country</groupId>
-	<artifactId>country-config-server</artifactId>
+	<artifactId>country-rest-api</artifactId>
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>config-server</name>
-	<description>Storing and serving configurations</description>
+	<name>country-rest-api</name>
+	<description>Country rest api</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-server</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Cloud -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -52,5 +62,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
