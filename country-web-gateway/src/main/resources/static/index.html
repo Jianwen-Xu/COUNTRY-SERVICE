@@ -18,9 +18,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1,minimal-ui" name="viewport">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/vue-material.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/theme/default.css">
     <title>Web Gateway</title>
 </head>
 <body>
+<div id="app">
+    <div class="page-container">
+        <md-app md-mode="fixed">
+            <md-app-toolbar class="md-primary">
+                <div class="md-toolbar-row">
+                    <div class="md-toolbar-section-start">
+                        <span class="md-title">{{ header }}</span>
+                    </div>
+                </div>
 
+                <div class="md-toolbar-row">
+                    <md-tabs class="md-primary">
+                        <md-tab id="tab-home" md-label="All" md-icon="public" @click="isCountries=true"></md-tab>
+                        <md-tab id="tab-pages" md-label="By Name" md-icon="map" @click="isCountries=false"></md-tab>
+                    </md-tabs>
+                </div>
+            </md-app-toolbar>
+            <md-app-content>
+                <div v-if="isCountries">
+                    <ul>
+                        <li v-for="country in countries">
+                            {{country.country_code}} - {{country.name}}
+                        </li>
+                    </ul>
+                </div>
+                <div v-else>
+                    <div class="md-layout">
+                        <div class="md-layout-item">
+                            <md-field>
+                                <label>Input the country name</label>
+                                <md-input v-model="countryName"></md-input>
+                                <md-button class="md-primary" @click="getByName">Search By Name</md-button>
+                            </md-field>
+                        </div>
+                        <div class="md-layout-item">
+                            <md-list>
+                                <md-list-item v-for="country in countriesByName">
+                                    <md-avatar>
+                                        <img :src="country.flag_file_url" alt="CountryFlag">
+                                    </md-avatar>
+                                    <div class="md-list-item-text">
+                                        <span class="md-list-item-text">{{country.country_code}} - {{country.name}} </span>
+                                        <span>Capital: {{country.capital}}</span>
+                                        <span>Population: {{country.population.toLocaleString()}}</span>
+                                    </div>
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                    </div>
+                </div>
+            </md-app-content>
+        </md-app>
+    </div>
+</div>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vue-material"></script>
+<script>
+    Vue.use(VueMaterial.default)
+
+    new Vue({
+        el: '#app',
+        data: {
+            header: 'Country Data API',
+            isCountries: true,
+            countries: null,
+            countriesByName: null,
+            countryName: "Finland"
+        },
+
+        created: function () {
+            this.getAll();
+        },
+
+        methods: {
+            getAll: function () {
+                var xhr = new XMLHttpRequest();
+                var self = this;
+                xhr.open("GET", "http://localhost:8080/api/country/countries");
+                xhr.onload = function () {
+                    self.countries = JSON.parse(xhr.responseText);
+                };
+                xhr.send();
+            },
+            getByName: function () {
+                var xhr = new XMLHttpRequest();
+                var self = this;
+                xhr.open("GET", "http://localhost:8080/api/country/countries/" + self.countryName);
+                xhr.onload = function () {
+                    self.countriesByName = JSON.parse(xhr.responseText);
+                };
+                xhr.send();
+            }
+        }
+    })
+</script>
 </body>
+
 </html>
