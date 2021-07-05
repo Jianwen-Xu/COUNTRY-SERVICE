@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.nordea.country.restapi;
+package com.nordea.country.discoveryserver;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.junit.jupiter.api.Test;
 
-@SpringBootApplication
-@EnableDiscoveryClient
-public class CountryRestApiApplication {
+import org.springframework.boot.test.context.SpringBootTest;
 
-	public static void main(String[] args) {
-		SpringApplication.run(CountryRestApiApplication.class, args);
+@SpringBootTest
+class DiscoveryServerApplicationTests {
+
+	@Test
+	void contextLoads() {
 	}
 
 }

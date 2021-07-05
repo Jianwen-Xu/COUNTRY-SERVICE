@@ -17,6 +17,7 @@
 	<modules>
 		<module>country-config-server</module>
 		<module>country-rest-api</module>
+		<module>country-discovery-server</module>
 	</modules>
 	<properties>
 		<java.version>1.8</java.version>

@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.nordea.country.restapi;
+package com.nordea.country.discoveryserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
-@EnableDiscoveryClient
-public class CountryRestApiApplication {
+@EnableEurekaServer
+public class DiscoveryServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CountryRestApiApplication.class, args);
+		SpringApplication.run(DiscoveryServerApplication.class, args);
 	}
 
 }
