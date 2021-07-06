@@ -19,10 +19,9 @@ package com.nordea.country.restapi.rest;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.nordea.country.restapi.model.CountryAllResponse;
 import com.nordea.country.restapi.model.CountryModel;
+import reactor.core.publisher.Flux;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,34 +43,18 @@ public class CountryApi {
 	private String getByName;
 
 	@GetMapping
-	public String findAll() throws JsonProcessingException {
+	public Flux<CountryAllResponse> findAllInFlux() throws JsonProcessingException {
 		RestTemplate restTemplate = new RestTemplate();
 		CountryModel[] result = restTemplate.getForObject(countryApi + getAll, CountryModel[].class);
-		ObjectMapper om = getFieldFilter(true);
-		return om.writeValueAsString(Arrays.asList(result));
+		return Flux.fromIterable(Arrays.asList(result))
+				.map(countryModel -> new CountryAllResponse(countryModel.getName(), countryModel.getCountry_code()));
 	}
 
 	@GetMapping("/{name}")
-	public String findByName(@PathVariable("name") String name) throws JsonProcessingException {
+	public Flux<CountryModel> findByNameInFlux(@PathVariable("name") String name) throws JsonProcessingException {
 		RestTemplate restTemplate = new RestTemplate();
 		CountryModel[] result = restTemplate.getForObject(countryApi + getByName + name, CountryModel[].class);
-		ObjectMapper om = getFieldFilter(false);
-		return om.writeValueAsString(Arrays.asList(result));
+		return Flux.fromIterable(Arrays.asList(result));
 	}
 
-	// filter the return data for different apis
-	private ObjectMapper getFieldFilter(boolean isCountry) {
-		ObjectMapper om = new ObjectMapper();
-		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-		if (isCountry) {
-			filterProvider.addFilter("countryFilter",
-					SimpleBeanPropertyFilter.filterOutAllExcept("name", "country_code"));
-		}
-		else {
-			filterProvider.addFilter("countryFilter",
-					SimpleBeanPropertyFilter.serializeAll());
-		}
-		om.setFilterProvider(filterProvider);
-		return om;
-	}
 }

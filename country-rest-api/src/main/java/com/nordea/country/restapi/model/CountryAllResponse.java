@@ -14,23 +14,34 @@
  * limitations under the License.
  */
 
-package com.nordea.country.restapi;
+package com.nordea.country.restapi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class CountryAllResponse {
+	@JsonProperty("name")
+	private String name;
+	@JsonProperty("country_code")
+	private String country_code;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-
-@SpringBootApplication
-@EnableDiscoveryClient
-public class CountryRestApiApplication {
-	final static Logger logger = LoggerFactory.getLogger(CountryRestApiApplication.class);
-
-	public static void main(String[] args) {
-		SpringApplication.run(CountryRestApiApplication.class, args);
+	public CountryAllResponse(String name, String country_code) {
+		this.name = name;
+		this.country_code = country_code;
 	}
 
+	String getName() {
+		return name;
+	}
+
+	void setName(String name) {
+		this.name = name;
+	}
+
+	String getCountry_code() {
+		return country_code;
+	}
+
+	void setCountry_code(String country_code) {
+		this.country_code = country_code;
+	}
 }

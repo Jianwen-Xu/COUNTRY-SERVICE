@@ -59,9 +59,12 @@
                                 <md-input v-model="countryName"></md-input>
                                 <md-button class="md-primary" @click="getByName">Search By Name</md-button>
                             </md-field>
-                        </div>
-                        <div class="md-layout-item">
-                            <md-list>
+                            <md-empty-state v-if="isNotFound"
+                                            md-icon="travel_explore"
+                                            md-label="No country found."
+                                            md-description="Please check the name and try again.">
+                            </md-empty-state>
+                            <md-list v-else>
                                 <md-list-item v-for="country in countriesByName">
                                     <md-avatar>
                                         <img :src="country.flag_file_url" alt="CountryFlag">
@@ -73,6 +76,9 @@
                                     </div>
                                 </md-list-item>
                             </md-list>
+                        </div>
+                        <div class="md-layout-item">
+
                         </div>
                     </div>
                 </div>
@@ -92,7 +98,8 @@
             isCountries: true,
             countries: null,
             countriesByName: null,
-            countryName: "Finland"
+            countryName: "Finland",
+            isNotFound: false
         },
 
         created: function () {
@@ -114,7 +121,13 @@
                 var self = this;
                 xhr.open("GET", "http://localhost:8080/api/country/countries/" + self.countryName);
                 xhr.onload = function () {
-                    self.countriesByName = JSON.parse(xhr.responseText);
+                    if (xhr.status == "200") {
+                        self.isNotFound = false;
+                        self.countriesByName = JSON.parse(xhr.responseText);
+                    } else {
+                        self.countriesByName = [];
+                        self.isNotFound = true;
+                    }
                 };
                 xhr.send();
             }
