@@ -45,11 +45,16 @@
             </md-app-toolbar>
             <md-app-content>
                 <div v-if="isCountries">
-                    <ul>
-                        <li v-for="country in countries">
-                            {{country.country_code}} - {{country.name}}
-                        </li>
-                    </ul>
+                    <md-table>
+                        <md-table-row>
+                            <md-table-head>Code</md-table-head>
+                            <md-table-head>Name</md-table-head>
+                        </md-table-row>
+                        <md-table-row v-for="country in countries">
+                            <md-table-cell md-label="Code">{{ country.country_code }}</md-table-cell>
+                            <md-table-cell md-label="Name">{{ country.name }}</md-table-cell>
+                        </md-table-row>
+                    </md-table>
                 </div>
                 <div v-else>
                     <div class="md-layout">
@@ -59,16 +64,10 @@
                                 <md-input v-model="countryName"></md-input>
                                 <md-button class="md-primary" @click="getByName">Search By Name</md-button>
                             </md-field>
-                            <md-empty-state v-if="isNotFound"
-                                            md-icon="travel_explore"
-                                            md-label="No country found."
-                                            md-description="Please check the name and try again.">
-                            </md-empty-state>
-                            <md-list v-else>
+                            <md-list>
                                 <md-list-item v-for="country in countriesByName">
-                                    <md-avatar>
-                                        <img :src="country.flag_file_url" alt="CountryFlag">
-                                    </md-avatar>
+                                    <img :src="country.flag_file_url" :alt="country.name"
+                                         style="width: 5em; margin-right: 5px;">
                                     <div class="md-list-item-text">
                                         <span class="md-list-item-text">{{country.country_code}} - {{country.name}} </span>
                                         <span>Capital: {{country.capital}}</span>
@@ -76,6 +75,10 @@
                                     </div>
                                 </md-list-item>
                             </md-list>
+                            <md-snackbar md-position="center" :md-active.sync="isNotFound" md-persistent>
+                                <span>No country found.</span>
+                                <md-button class="md-accent" @click="isNotFound = false">Close</md-button>
+                            </md-snackbar>
                         </div>
                         <div class="md-layout-item">
 
