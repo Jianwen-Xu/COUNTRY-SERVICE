@@ -1,6 +1,8 @@
 # COUNTRY-SERVICE
 Implement a microservice which provides a list of countries and, in addition, provides more detailed information per country.
 
+![micro-services-architecture](docs/Architecture.png)
+
 ## Start the config server
 In the root folder, run the command
 
