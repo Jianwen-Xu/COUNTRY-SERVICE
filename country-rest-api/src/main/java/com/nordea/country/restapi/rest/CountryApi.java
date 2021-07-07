@@ -16,7 +16,9 @@
 
 package com.nordea.country.restapi.rest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nordea.country.restapi.model.CountryAllResponse;
@@ -43,18 +45,23 @@ public class CountryApi {
 	private String getByName;
 
 	@GetMapping
-	public Flux<CountryAllResponse> findAllInFlux() throws JsonProcessingException {
+	public List<CountryAllResponse> findAllInFlux() throws JsonProcessingException {
+		List<CountryAllResponse> countryList = new ArrayList<>();
 		RestTemplate restTemplate = new RestTemplate();
 		CountryModel[] result = restTemplate.getForObject(countryApi + getAll, CountryModel[].class);
-		return Flux.fromIterable(Arrays.asList(result))
-				.map(countryModel -> new CountryAllResponse(countryModel.getName(), countryModel.getCountry_code()));
+		Flux.fromIterable(Arrays.asList(result))
+				.map(countryModel -> new CountryAllResponse(countryModel.getName(), countryModel.getCountry_code()))
+				.log().subscribe(countryList::add);
+		return countryList;
 	}
 
 	@GetMapping("/{name}")
-	public Flux<CountryModel> findByNameInFlux(@PathVariable("name") String name) throws JsonProcessingException {
+	public List<CountryModel> findByNameInFlux(@PathVariable("name") String name) throws JsonProcessingException {
+		List<CountryModel> countryList = new ArrayList<>();
 		RestTemplate restTemplate = new RestTemplate();
 		CountryModel[] result = restTemplate.getForObject(countryApi + getByName + name, CountryModel[].class);
-		return Flux.fromIterable(Arrays.asList(result));
+		Flux.fromIterable(Arrays.asList(result)).log().subscribe(countryList::add);
+		return countryList;
 	}
 
 }
