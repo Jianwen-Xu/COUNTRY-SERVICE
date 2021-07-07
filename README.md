@@ -32,9 +32,9 @@ The rest api server can be accessed in the following URLs:
 
 GET /countries/ [http://localhost:8081/countries](http://localhost:8081/countries)
 
-GET /countries/{name} [http://localhost:8081/countries/Finland](http://localhost:8081/countries/Finland)
-
 ![rest-api-1](docs/rest-api-countries-screenshot.png)
+
+GET /countries/{name} [http://localhost:8081/countries/Finland](http://localhost:8081/countries/Finland)
 
 ![rest-api-2](docs/rest-api-countryByName-screenshot.png)
 
@@ -47,7 +47,10 @@ The web gateway server can be accessed in the following URL:
 
 [http://localhost:8080](http://localhost:8080)
 
+UI - list all countries
 
 ![web-gateway-1](docs/web-gateway-countries-screenshot.png)
+
+UI - search country by name
 
 ![web-gateway-2](docs/web-gateway-countryByName-screenshot.png)
