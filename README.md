@@ -56,3 +56,17 @@ UI - list all countries
 UI - search country by name
 
 ![web-gateway-2](docs/web-gateway-countryByName-screenshot.png)
+
+---
+
+**For linux os please run the following scripts:**
+
+`nohup ./mvnw spring-boot:run  -pl country-config-server &`
+
+`nohup ./mvnw spring-boot:run -pl country-discovery-server &`
+
+`nohup ./mvnw spring-boot:run -pl country-rest-api &`
+
+`nohup ./mvnw spring-boot:run -pl country-web-gateway &`
+
+Use command `ps -ef` and `kill {PID}` to stop the related processes.
