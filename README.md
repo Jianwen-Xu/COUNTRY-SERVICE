@@ -3,6 +3,10 @@ Implement a microservice which provides a list of countries and, in addition, pr
 
 ![micro-services-architecture](docs/Architecture.png)
 
+---
+
+**For windows os:**
+
 ## Start the config server
 In the root folder, run the command
 
