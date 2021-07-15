@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nordea.country.restapi.model.CountryAllResponse;
 import com.nordea.country.restapi.model.CountryModel;
 import reactor.core.publisher.Flux;
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @RequestMapping("/countries")
@@ -45,23 +45,33 @@ public class CountryApi {
 	private String getByName;
 
 	@GetMapping
-	public List<CountryAllResponse> findAllInFlux() throws JsonProcessingException {
-		List<CountryAllResponse> countryList = new ArrayList<>();
-		RestTemplate restTemplate = new RestTemplate();
-		CountryModel[] result = restTemplate.getForObject(countryApi + getAll, CountryModel[].class);
-		Flux.fromIterable(Arrays.asList(result))
-				.map(countryModel -> new CountryAllResponse(countryModel.getName(), countryModel.getCountry_code()))
-				.log().subscribe(countryList::add);
-		return countryList;
+	public List<CountryAllResponse> findAllInFlux() {
+		try {
+			List<CountryAllResponse> countryList = new ArrayList<>();
+			RestTemplate restTemplate = new RestTemplate();
+			CountryModel[] result = restTemplate.getForObject(countryApi + getAll, CountryModel[].class);
+			Flux.fromIterable(Arrays.asList(result))
+					.map(countryModel -> new CountryAllResponse(countryModel.getName(), countryModel.getCountry_code()))
+					.log().subscribe(countryList::add);
+			return countryList;
+		}
+		catch (RestClientException e) {
+			throw new ResourceNotFoundException("Country List Not Found");
+		}
 	}
 
 	@GetMapping("/{name}")
-	public List<CountryModel> findByNameInFlux(@PathVariable("name") String name) throws JsonProcessingException {
-		List<CountryModel> countryList = new ArrayList<>();
-		RestTemplate restTemplate = new RestTemplate();
-		CountryModel[] result = restTemplate.getForObject(countryApi + getByName + name, CountryModel[].class);
-		Flux.fromIterable(Arrays.asList(result)).log().subscribe(countryList::add);
-		return countryList;
+	public List<CountryModel> findByNameInFlux(@PathVariable("name") String name) {
+		try {
+			List<CountryModel> countryList = new ArrayList<>();
+			RestTemplate restTemplate = new RestTemplate();
+			CountryModel[] result = restTemplate.getForObject(countryApi + getByName + name, CountryModel[].class);
+			Flux.fromIterable(Arrays.asList(result)).log().subscribe(countryList::add);
+			return countryList;
+		}
+		catch (RestClientException e) {
+			throw new ResourceNotFoundException("Country " + name + " Not Found");
+		}
 	}
 
 }
