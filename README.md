@@ -74,3 +74,15 @@ UI - search country by name
 `nohup ./mvnw spring-boot:run -pl country-web-gateway &`
 
 Use command `ps -ef` and `kill {PID}` to stop the related processes.
+
+---
+
+**For tests:**
+
+*Tests for two projects (rest-api and web-gateway) were added, the test of rest-api need config-server and discovery-server already running.*
+
+`mvnw test -pl country-rest-api`
+
+*The test of web-gateway is end-to-end test which need All other projects already running.*
+
+`mvnw test -pl country-web-gateway`
