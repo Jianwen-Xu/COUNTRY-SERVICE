@@ -16,15 +16,23 @@
 
 package com.nordea.country.restapi;
 
+import com.nordea.country.restapi.rest.CountryApi;
 import org.junit.jupiter.api.Test;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class CountryRestApiApplicationTests {
 
+	@Autowired
+	private CountryApi controller;
+
 	@Test
-	void contextLoads() {
+	void contextLoads() throws Exception {
+		assertThat(controller).isNotNull();
 	}
 
 }
